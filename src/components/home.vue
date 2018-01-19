@@ -1,8 +1,7 @@
 <template>
 	<div class="home">
-		ddddddd
 		<div class="header_img">
-			<img src="src/img/header_img.jpg" alt="">
+			<img src="~@/img/header_img.jpg" alt="">
 		</div>
 		<div id="banner">
 			<div class="swiper-container">
@@ -16,8 +15,16 @@
 </template>
 
 <script>
+	import '@/plugins/swiper.min.css';
+	import '@/plugins/swiper.js'
+	export default {
+
+	}
 </script>
 
 <style lang="scss">
+	.header_img img {
+		width: 100%;
+	}
 	
 </style>
