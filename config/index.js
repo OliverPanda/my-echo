@@ -19,12 +19,7 @@ module.exports = {
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-    // 配置后台路由路径
-    context: [
-      '/banner',
-      '/recommend'
-    ],
-    proxypath: 'localhost:8089',
+    
 
     
     /**
