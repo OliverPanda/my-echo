@@ -4,7 +4,6 @@
 			<img src="../img/header_img.jpg" alt="">
 		</div>
 		<div id="banner">
-			<div class="swiper-container">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide"></div>
 				</div>
