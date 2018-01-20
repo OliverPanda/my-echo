@@ -1,0 +1,46 @@
+@mixin wh($width, $hieght) {
+    width: $width;
+    height: $hieght;
+}
+
+@mixin sc($size,$color) {
+    font-size: $size;
+    color: $color;
+}
+
+@mixin font($height,$lineHeight,$family: 'Microsoft YaHei') {
+    font: font: #{$size}/#{$line-height} $family;
+}
+
+@mixin borderRadius {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    -o-border-radius: $radius;
+    border-radius: $radius;
+}
+
+@mixin allCenter {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+@mixin vCenter {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@mixin hCenter {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+// flex布局和子元素对齐方式
+@mixin fj($type: space-between) {
+    display: flex;
+    justify-content: $type;
+}
