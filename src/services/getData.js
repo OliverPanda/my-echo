@@ -1,9 +1,9 @@
 import fetch from 'src/config/fetch'
 
-export const getBanner = () => fetch('banner', {
+export const Banner = () => fetch('banner', {
     
 })
 
-export const getHot = () => fetch('recommend', {
+export const Hot = () => fetch('recommend', {
 
 })

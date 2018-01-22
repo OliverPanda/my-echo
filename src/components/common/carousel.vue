@@ -3,7 +3,7 @@
         <swiper>
             <swiper-slide v-for="(item, index) in banner" :key="index">
                 <router-link :to="'/detail/' + item.sound.id">
-                    <img :src="item.sound.pic_640" :alt="item.sound.name">
+                    <img :src="item.sound.pic_640">
                 </router-link>
             </swiper-slide>
             
@@ -13,7 +13,8 @@
 
 <script>
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import { getBanner } from 'src/services/getData'
+import { Banner } from 'src/services/getData'
+import { mapActions } from 'vuex'
 export default {
     data () {
         return {
@@ -25,10 +26,11 @@ export default {
         swiperSlide
     },
     created () {
-        getBanner().then(res => {
-            this.banner = res;
-        })
-        
+    },
+    methods: {
+        ...mapActions([
+            'getBanner'
+        ])
     }
 }
 </script>
