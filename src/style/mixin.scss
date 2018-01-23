@@ -1,3 +1,5 @@
+$bgColor: #e8e8e8;
+
 @mixin wh($width, $hieght) {
     width: $width;
     height: $hieght;
@@ -8,8 +10,9 @@
     color: $color;
 }
 
-@mixin font($height,$lineHeight,$family: 'Microsoft YaHei') {
-    font: font: #{$size}/#{$line-height} $family;
+//字体大小、行高、字体
+@mixin font($size, $line-height, $family: 'Microsoft YaHei') {  
+	font: #{$size}/#{$line-height} $family;
 }
 
 @mixin borderRadius {

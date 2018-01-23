@@ -1,11 +1,13 @@
+import Vue from 'vue'
 import Vuex from 'vuex'
-Vue.use(Vuex)
 import actions from './actions'
-import mutaions from './mutations'
-import getters from './getters'
+import mutations from './mutations'
+import * as getters from './getters'
+
+Vue.use(Vuex)
 
 const state = {
-
+    bannerList: []
 }
 
 export default new Vuex.store({
