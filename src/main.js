@@ -8,6 +8,13 @@ Vue.config.productionTip = false
 // 引入mockjs
 import 'src/mock/mock'
 
+// rem.js 适配
+import './config/rem'
+
+// axios
+import axios from 'axios'
+Vue.prototype.$http = axios
+axios.defaults.baseURL = 'http://localhost:8089/'
 
 /* eslint-disable no-new */
 new Vue({
