@@ -2,7 +2,7 @@
 var Mock = require('mockjs')
 
 // 推荐
-Mock.mock('http://localhost:8088/recommend', {
+Mock.mock('http://localhost:8089/recommend', {
     'code': 0,
     'msg': '',
     'data': [{
@@ -2402,7 +2402,7 @@ Mock.mock('http://localhost:8088/recommend', {
 })
 
 // banner
-Mock.mock('http://localhost:8088/banner', {
+Mock.mock('http://localhost:8089/banner', {
     'code': 0,
     'msg': '',
     'data': [{
