@@ -10,6 +10,12 @@ $bgColor: #e8e8e8;
     color: $color;
 }
 
+// height 和 line-height 文字垂直居中
+@mixin lh($height) {
+    height: $height;
+    line-height: $height;
+}
+
 //字体大小、行高、字体
 @mixin font($size, $line-height, $family: 'Microsoft YaHei') {  
 	font: #{$size}/#{$line-height} $family;
