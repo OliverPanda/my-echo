@@ -1,3 +1,3 @@
-export const getters = {
-    bennerList: state => state.bennerList
+export default {
+    banner: state => state.banner
 }

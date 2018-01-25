@@ -11,8 +11,13 @@
 
         <section class="sound_cover">
             <img src="" alt="">
+            <div class="progress">
+                <span style="width: 5%"></span>
+                <em></em>
+            </div>
             <div class="control">
                 
+
             </div>
         </section>
     </div>
@@ -21,7 +26,9 @@
 <script>
 export default {
     data () {
+        return {
 
+        }
     },
     computed: {
 

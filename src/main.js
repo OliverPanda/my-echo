@@ -3,23 +3,23 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-Vue.config.productionTip = false
+import store from './store'
 
 // 引入mockjs
 import 'src/mock/mock'
-
 // rem.js 适配
 import './config/rem'
 
-// axios
-import axios from 'axios'
-Vue.prototype.$http = axios
-axios.defaults.baseURL = 'http://localhost:8089/'
+
+Vue.config.productionTip = false
+
+
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

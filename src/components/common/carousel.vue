@@ -14,11 +14,11 @@
 <script>
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data () {
         return {
-            banner: [],
             swiperOption: {
                 noNextOption: true,
                 pagination: {
@@ -30,24 +30,33 @@ export default {
             }
         }
     },
+    computed: {
+        ...mapGetters([
+            'banner'
+        ])
+    },
     components: {
         swiper,
         swiperSlide
     },
-    mounted() {
-        
-        this.$http.get('banner',{
-
-        }).then(res => {
-            if(res.data.code === 0) {
-                this.banner = res.data.data
-            }
-            // console.log(res.data.code)
-            // console.log(res.data.data)
-        }, e => {
-            throw new Error();
-            console.log('error');
-        })
+    methods: {
+        ...mapActions([
+            'getBanner'
+        ]),
+        get_banner_data () {
+            this.getBanner().then(res => {
+                // console.log(res.data)
+                this.$store.state.banner = res.data
+            }, err => {
+                console.log('banner', err)
+            })
+        },
+        init () {
+            this.get_banner_data()
+        }
+    },
+    mounted () {
+        this.init()
     }
 }
 </script>
@@ -69,15 +78,12 @@ export default {
             .swiper-pagination{
                 width: 100%;
                 left: 0;
-                bottom: 0.5rem;
+                bottom: 0.25rem;
                 .swiper-pagination-bullet{
                     background: #fff;
                 }
             }
-            
         }
-        
-
     }
 </style>
 

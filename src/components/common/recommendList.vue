@@ -18,33 +18,42 @@
 
 
 <script>
+import { mapActions } from 'vuex'
+import { error } from 'util';
 export default {
     data() {
         return {
             recommendList: []
         };
     },
-    created() {
-        this.$http.get("recommend").then(
-            res => {
-                this.recommendList = res.data.data;
-            },
-            e => {
-                console.log(e);
-            }
-        );
-    },
     methods: {
         hotClass(hot) {
             switch (hot) {
                 case 1:
-                    return "fire-red";
+                    return "fire-red"
                 case 3:
-                    return "fire-yellow";
+                    return "fire-yellow"
                 case 4:
-                    return "fire-blue";
+                    return "fire-blue"
             }
+        },
+        ...mapActions([
+            'getHot'
+        ]),
+        get_recommend () {
+            this.getHot().then(res => {
+                this.recommendList = res.data
+                // console.log(res.data)
+            }, err => {
+                console.log('get_recommend',err)
+            })
+        },
+        init () {
+            this.get_recommend()
         }
+    },
+    mounted () {
+        this.get_recommend()
     }
 };
 </script>

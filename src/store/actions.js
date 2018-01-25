@@ -1,9 +1,14 @@
-import fetch from 'src/config/fetch'
+import { fetch } from 'src/config/fetch'
+import { GET_BANNER } from './mutations-type'
 
 export default {
     async getBanner({commit,state}) {
-        let res = fetch('banner')
+        let res =await fetch('GET','banner')
+        return res
+    },
+    async getHot({commit,state}) {
+        let res =await fetch('GET','recommend')
         return res
     }
-
+    
 }
