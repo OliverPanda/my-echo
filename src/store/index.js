@@ -7,7 +7,8 @@ import getters from './getters'
 Vue.use(Vuex)
 
 const state = {
-    banner: []
+    banner: [],
+    allData: []
 }
 
 export default new Vuex.Store({

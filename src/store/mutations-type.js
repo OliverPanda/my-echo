@@ -1,2 +1,1 @@
-export const GET_BANNER = 'GET_BANNER'
-export const GET_HOT = 'GET_HOT'
+export const SET_ALLDATA = 'SET_ALLDATA'
