@@ -1,1 +1,1 @@
-export const SET_ALLDATA = 'SET_ALLDATA'
+export const GET_ALL = 'GET_ALL'

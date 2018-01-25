@@ -28,11 +28,25 @@ import { mapActions } from 'vuex'
 export default {
     data () {
         return {
-            user: []
+            username: ''
         }
     },
     methods: {
+        ...mapActions([
+            'get_music_data'
+        ]),
+        getuserInfo () {
+            this.get_music_data (this.$route.params.id)
+            .then(res => {
+                console.log(res)
+            })
+        },
+        getMusicInfo () {
 
+        },
+        init () {
+
+        }
     },
     mounted () {
     }

@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 const state = {
     banner: [],
-    allData: []
+    getAll: []
 }
 
 export default new Vuex.Store({
