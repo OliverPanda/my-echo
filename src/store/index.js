@@ -8,7 +8,9 @@ Vue.use(Vuex)
 
 const state = {
     banner: [],
-    getAll: []
+    getAll: [],
+    sound_currentTime: '00:00',
+    
 }
 
 export default new Vuex.Store({

@@ -31,13 +31,13 @@ export default {
     // 根据 ID 获取音乐的所有数据, id在调用的时候传个路由id
     async get_music_data ({ state, commit,dispatch }, id) {
         // 如果没有数据的话，重新触发getBanner  getHot 获取banner recommend里的所有数据
-        if(!state.getAll) {
+        if(!state.getAll[id]) {
             await dispatch('getBanner')
             await dispatch('getHot')
         }
         let res = state.getAll[id]
+        return res
     }
-
     
     
 }

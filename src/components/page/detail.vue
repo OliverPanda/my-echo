@@ -2,53 +2,70 @@
     <div id="detail">
         <section class="sound_user">
             <span class="user_img">
-                <img src="https://al-qn-echo-image-cdn.app-echo.com/bee7817645711afdc8aef1ab231201ee14e36b7d?imageMogr2/auto-orient/quality/100%7CimageMogr2/thumbnail/!250x250r/gravity/Center/crop/250x250/dx/0/dy/0&imageMogr2/auto-orient/quality/100%7CimageMogr2/thumbnail/!50x50r/gravity/Center/crop/50x50/dx/0/dy/0" alt="" class="profile_pic">
-                <img src="https://ws-qn-echo-image-cdn.app-echo.com/Foz1CX1MdKHnTiDV26btgAmDJ3Y-?imageMogr2/auto-orient/quality/100%7CimageMogr2/thumbnail/!100x100r/gravity/Center/crop/100x100/dx/0/dy/0" alt="" class="vip_icon">
+                <img :src="userInfo.avatar_50" :alt="userInfo.name" class="profile_pic">
+                <img v-if="userInfo.is_real_famous" :src="userInfo.famous_icon" class="vip_icon">
             </span>
-            <span class="username">ZR子绕</span>
-            <div class="user_fans right">粉丝: <em>粉丝数</em></div>
+            <span class="username">{{userInfo.name}}</span>
+            <div class="user_fans right">粉丝: <em>{{userInfo.followed_count}}</em></div>
         </section>
 
         <section class="sound_cover">
-            <img src="" alt="">
+            <img :src="soundInfo.pic_500" :alt="soundInfo.name">
             <div class="progress">
                 <span style="width: 5%"></span>
-                <em></em>
+                <em>{{soundInfo.length | timeFormat}}</em>
             </div>
             <div class="control">
                 
-
             </div>
         </section>
     </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import Util from 'src/config/util'
 export default {
     data () {
         return {
-            username: ''
+            userInfo: '',
+            soundInfo: ''
         }
+    },
+    computed: {
+        ...mapGetters([
+
+        ])
+    },
+    filters: {
+        timeFormat: Util.timeFormat
     },
     methods: {
         ...mapActions([
             'get_music_data'
         ]),
-        getuserInfo () {
+        getUserInfo () {
             this.get_music_data (this.$route.params.id)
             .then(res => {
-                console.log(res)
+                // console.log(res.sound)
+                // console.dir(res.sound.user)
+                this.soundInfo = res.sound
+                this.userInfo = res.sound.user
             })
         },
         getMusicInfo () {
 
         },
         init () {
-
+            this.getUserInfo()
         }
     },
     mounted () {
+        this.init()
+        // console.log(Util.timeFormat(40))
+        // console.log(Util.timeFormat(666))
+        
+
     }
 };
 </script>
@@ -88,7 +105,6 @@ export default {
   }
   .user_fans {
       font-size: 0.51rem;
-
   }
 }
 </style>
