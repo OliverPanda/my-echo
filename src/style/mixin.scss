@@ -1,4 +1,4 @@
-$bgColor: #e8e8e8;
+
 
 @mixin wh($width, $hieght) {
     width: $width;
@@ -46,6 +46,18 @@ $bgColor: #e8e8e8;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+}
+
+@mixin leftTop {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+@mixin btmRight {
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
 
 // flex布局和子元素对齐方式

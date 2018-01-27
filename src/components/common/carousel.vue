@@ -14,7 +14,7 @@
 <script>
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
     data () {
@@ -31,7 +31,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters([
+        ...mapState([
             'banner'
         ])
     },
@@ -67,7 +67,7 @@ export default {
     #banner {
         @include wh(100%,7rem);
         padding: 10px;
-        background-color: $bgColor;
+        background-color: #e8e8e8;
         .swiper{
             @include wh(100%,100%);
             .swiper-slide{

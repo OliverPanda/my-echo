@@ -36,6 +36,7 @@ export default {
             await dispatch('getHot')
         }
         let res = state.getAll[id]
+
         return res
     }
     
