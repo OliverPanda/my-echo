@@ -6,7 +6,9 @@
                 <img v-if="userInfo.is_real_famous" :src="userInfo.famous_icon" class="vip_icon">
             </span>
             <span class="username">{{userInfo.name}}</span>
-            <div class="user_fans right">粉丝: <em>{{userInfo.followed_count}}</em></div>
+            <div class="user_fans right">粉丝:
+                <em>{{userInfo.followed_count}}</em>
+            </div>
         </section>
 
         <section class="sound_cover">
@@ -16,62 +18,84 @@
                 <em>{{audio.currentTime | timeFormat}} / {{soundInfo.length | timeFormat}}</em>
             </div>
             <div class="control">
-                
+                <div class="play_btn"></div>
+                <div class="control">
+                    <p class="control_name">{{soundInfo.name}}</p>
+                    <p class="control_info">
+                        <span class="author"><em>{{soundInfo.user.name}}</em></span>
+                        <span class="channel"><em>{{soundInfo.channel.name}}</em></span>
+                    </p>
+                </div>
             </div>
         </section>
         <section class="sound_info">
             <div class="info_header">
-                <div class="play_num">216850 播放</div>
-                <div class="like">
-                    5474 喜欢
-                </div>
+                <div class="play_num">{{soundInfo.view_count}}</div>
+                <div class="like">{{soundInfo.like_count}} 喜欢</div>
                 <div class="setRing">设为手机铃声</div>
             </div>
+            <div class="info_lyr">
+                <div class="lyr_header" v-if="soundInfo.song_info">
+                    <p v-if='soundInfo.song_info.album_name'>{{soundInfo.song_info.album_name.type}} : {{soundInfo.song_info.album_name.name}}</p>
+                    <p v-if='soundInfo.song_info.author'>{{soundInfo.song_info.author.type}} : {{soundInfo.song_info.author.name}}</p>
+                    <p v-if='soundInfo.song_info.name'>{{soundInfo.song_info.name.type}} : {{soundInfo.song_info.name.name}}</p>
+                </div>
+                <div class="lyr" v-if="soundInfo.lyrics" v-html="soundInfo.lyrics">
+                </div>
+                <div class="noLyr" v-if="soundInfo.song_info && soundInfo.lyrics ">找不到歌词...</div>
+            </div>
         </section>
+        <myList :data="detailRecommend"></myList>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
-import Util from 'src/config/util'
+import { mapActions, mapGetters, mapState } from "vuex";
+import Util from "src/config/util";
+import myList from "src/components/common/recommendList";
 export default {
-    data () {
+    data() {
         return {
-            userInfo: '',
-            soundInfo: ''
-        }
+            userInfo: "",
+            soundInfo: "",
+            detailRecommend: []
+        };
+    },
+    components: {
+        myList
     },
     computed: {
-        ...mapState([
-            'audio'
-        ])
+        ...mapState(["audio"])
     },
     filters: {
         timeFormat: Util.timeFormat
     },
     methods: {
-        ...mapActions([
-            'get_music_data'
-        ]),
-        getDetailInfo () {
-            this.get_music_data (this.$route.params.id)
-            .then(res => {
-                this.soundInfo = res.sound
-                this.userInfo = res.sound.user
-            })
+        ...mapActions(["get_music_data", "getHot"]),
+        getDetailInfo() {
+            this.get_music_data(this.$route.params.id).then(res => {
+                this.soundInfo = res.sound;
+                this.userInfo = res.sound.user;
+            });
         },
-        jump (e) {
+        getRecommend() {
+            this.getHot().then(res => {
+                this.detailRecommend = Util.getArrayItems(res.data,8)
+            });
+        },
+        jump(e) {
             // 只适合width = 100%时候,只适合进度条宽度 = window宽度
-            e = e || window.event
-            var percent = (e.pageX / window.innerWidth).toFixed(2)
-            this.audio.currentTime = this.soundInfo.length * percent
+            e = e || window.event;
+            var percent = (e.pageX / window.innerWidth).toFixed(2);
+            this.audio.currentTime = this.soundInfo.length * percent;
         },
-        init () {
-            this.getDetailInfo()
+        init() {
+            this.getDetailInfo();
+            this.getRecommend();
         }
     },
-    mounted () {
-        this.init()
+    mounted() {
+        this.init();
     }
 };
 </script>
@@ -80,41 +104,41 @@ export default {
 @import "src/style/mixin.scss";
 
 .sound_user {
-  position: relative;
-  @include lh(2.24rem);
-  background-color: #fbfbfb;
-  padding: 0 0.42rem;
-  span {
-      display: inline-block;
-      vertical-align: middle;
-      line-height: 2.24rem;
-  }
-  .user_img {
-    @include wh(1.44rem,1.44rem);
     position: relative;
-    margin: 0.4rem 0;
-    overflow: hidden;
-    .profile_pic {
-        width: 100%;
-        border-radius: 50%;
+    @include lh(2.24rem);
+    background-color: #fbfbfb;
+    padding: 0 0.42rem;
+    span {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 2.24rem;
     }
-    .vip_icon {
-        @include wh(0.64rem,0.64rem);
-        position: absolute;
-        bottom: 0;
-        right: 0;
+    .user_img {
+        @include wh(1.44rem,1.44rem);
+        position: relative;
+        margin: 0.4rem 0;
+        overflow: hidden;
+        .profile_pic {
+            width: 100%;
+            border-radius: 50%;
+        }
+        .vip_icon {
+            @include wh(0.64rem,0.64rem);
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
     }
-  }
-  .username {
-      font-size: 0.6rem;
-      @include ellipsis;
-  }
-  .user_fans {
-      font-size: 0.51rem;
-      em {
-          color: #00ae05;
-      }
-  }
+    .username {
+        font-size: 0.6rem;
+        @include ellipsis;
+    }
+    .user_fans {
+        font-size: 0.51rem;
+        em {
+            color: #00ae05;
+        }
+    }
 }
 
 .sound_cover {
@@ -124,28 +148,73 @@ export default {
         @include wh(100%, 16rem);
         object-fit: cover;
     }
-  .progress {
-    @include wh(100%, 0.64rem);
-    @include font(0.51rem, 0.64rem);
-    position: absolute;
-    bottom: 2.4rem;
-    background-color: rgba(0, 0, 0, 0.2);
-    color: #fff;
-    span {
-      background-color: rgba(110, 213, 108, 0.6);
-      @include leftTop;
-      height: 100%;
+    .progress {
+        @include wh(100%, 0.64rem);
+        @include font(0.51rem, 0.64rem);
+        position: absolute;
+        bottom: 2.4rem;
+        background-color: rgba(0, 0, 0, 0.2);
+        color: #fff;
+        span {
+            background-color: rgba(110, 213, 108, 0.6);
+            @include leftTop;
+            height: 100%;
+        }
+        em {
+            z-index: 1;
+        }
     }
-    em {
-      z-index: 1;
+    .control {
+        @include lh(2.4rem);
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        .play_btn {
+            @include wh(1.6rem,1.6rem);
+            margin: 0.43rem;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            background-size: cover;
+            &.play {
+                background: url(~src/img/play.png);
+            }
+            &.pause {
+                background: url(~src/img/pause.png)
+            }
+        }
+        .control_info {
+            flex: 1;
+            color: #fff;
+            height: 1.6rem;
+            vertical-align: top;
+            overflow: hidden;     
+            p {
+                width: 100%;
+                height: 1.432;
+                @include ellipsis;
+                font-size: 0.48rem;
+                span>em {
+                    color: #6ed56c;
+                    font-size: 0.51rem;
+                }
+            }       
+            .control_name {
+            }
+        }
+
+
     }
-  }
 }
-.sound_info .info_header .play_num:before, .sound_info .info_header .link:before, .sound_info .info_header .setRing:before  {
-    content: '';
+.sound_info .info_header .play_num:before,
+.sound_info .info_header .link:before,
+.sound_info .info_header .setRing:before {
+    content: "";
     display: inline-block;
     margin-right: 0.26rem;
-    background-size: cover;
+    background-size: cover !important;
 }
 .sound_info {
     width: 100%;
@@ -172,12 +241,29 @@ export default {
             @include lh(2.35rem);
             font-size: 0.51rem;
             color: #a9a9a9;
-            margin-right: .86rem;
+            margin-right: 0.86rem;
             &:before {
                 @include wh(0.43rem,0.38rem);
-                background: url(~src/img/play_num.png) no-repeat;
+                background: url(~src/img/like_num.png) no-repeat;
             }
         }
+        .setRing {
+            float: right;
+            @include lh(2.35rem);
+            font-size: 0.56rem;
+            color: #6ed56c;
+            &:before {
+                @include wh(0.86rem,0.86rem);
+                background: url(~src/img/bell.png) no-repeat;
+            }
+        }
+    }
+    .info_lyr {
+        white-space: pre-line;
+        line-height: 1.5em;
+        font-size: 0.6rem;
+        padding: 0.61rem 0.64rem 1.28rem;
+        text-align: left;
     }
 }
 </style>

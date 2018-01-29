@@ -6,18 +6,43 @@
 		<carousel></carousel>
 		<section class="recommend">
 			<h3 class="recommend_title">每日推荐</h3>
-			<recommendList></recommendList>
+			<myList :data="recommendList"></myList>
 		</section>
 	</div>
 </template>
 
 <script type="script/ecmascript-6">
 	import carousel from 'src/components/common/carousel'
-	import recommendList from 'src/components/common/recommendList'
+	import myList from 'src/components/common/recommendList'
+	import { mapActions } from 'vuex'
 	export default {
 		components: {
 			carousel,
-			recommendList
+			myList
+		},
+		data() {
+			return {
+				recommendList: []
+			}
+		},
+		methods: {
+			...mapActions([
+				'getHot'
+			]),
+			get_recommend () {
+				this.getHot().then(res => {
+					this.recommendList = res.data
+					// console.log(res.data)
+				}, err => {
+					console.log('get_recommend',err)
+				})
+			},
+			init () {
+				this.get_recommend()
+			}
+		},
+		mounted () {
+			this.init()
 		}
 	}
 </script>
