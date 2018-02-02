@@ -1,5 +1,5 @@
 import { fetch } from 'src/config/fetch'
-import { GET_ALL } from './mutations-type'
+import { GET_ALL, SET_PLAYLIST } from './mutations-type'
 
 export default {
     async getBanner({commit,state}) {
@@ -36,9 +36,22 @@ export default {
             await dispatch('getHot')
         }
         let res = state.getAll[id]
-
+        // 如果在playList里找不到该歌，则添加到playList中
+        let ishash = false
+        if (state.playList.find((n) => n.sound.id === id)) {
+            ishash = true
+        }
+        if(!ishash) {
+            state.playList.unshift(res)
+            commit(SET_PLAYLIST,state.playList)
+        }
         return res
+        try {
+            console.log(state.playList)
+        }
+        catch(e){
+            throw new Error()
+        }
     }
-    
     
 }

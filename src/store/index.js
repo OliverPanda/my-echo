@@ -11,9 +11,13 @@ const state = {
     getAll: [],
     audio: {
         currentTime: 0,
-        play: false
-        
-    }
+        duration:　0,
+        play: false,
+        data: null,
+        ele: null
+    },
+    playList: [],
+    playMode: 'default'
 }
 
 export default new Vuex.Store({

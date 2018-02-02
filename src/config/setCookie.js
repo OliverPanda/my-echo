@@ -3,7 +3,7 @@
  * @param {设置的缓存的名称} name 
  * @param {缓存的值} val 
  */
-export const setStore = (name,val) => {
+export const setCookie = (name,val) => {
     if (!name) {
         return
     }
@@ -13,14 +13,14 @@ export const setStore = (name,val) => {
     window.localStorage.setItem(name,val)
 }
 
-export const getStore = name => {
+export const getCookie = name => {
     if (!name) {
         return
     }
     return window.localStorage.getItem(name)
 }
 
-export const deleteStore = name => {
+export const deleteCookie = name => {
     if (!name) {
         return
     }
