@@ -19,8 +19,34 @@
 </template>
 
 <script>
+import {mapActions, mapState, mapMutations} from 'vuex'
 export default {
-  
+    computed: {
+        ...mapState({
+            // 'audio' 等同于state => state.audio
+            audio: 'audio',
+            playMode: 'playMode',
+            playList: 'playList',
+            audio_data: 'audio.data',
+            audio_play: 'audio.play'
+        }),
+        methods: {
+            ...mapMutations([
+                // SET_AUDIO_DATA: 'SET_AUDIO_DATA'  或者 SET_AUDIO_DATA: this.$store.commit('SET_AUDIO_DATA)
+                'SET_AUDIO_DATA',
+                'SET_AUDIO_ELE',
+                'SET_AUDIO_PLAY',
+                'SET_AUDIO_DURATION',
+                'SET_AUDIO_CURRENTTIME',
+                'SET_AUDIO_PLAYMODE',
+                'SET_PLAYLIST'
+            ])
+        },
+        audio_init () {
+            let audio_ele = this.$el.querySelector('#audio')
+            
+        }
+    }
 }
 </script>
 

@@ -9,7 +9,7 @@ export default {
       return min + ':' + sec
     }
   },
-  // 详情页随机
+  // 详情页随机推荐
   getArrayItems: (arr, num) => {
     //新建一个数组,将传入的数组复制过来,用于运算,而不要直接操作传入的数组;
     var temp_array = new Array();
