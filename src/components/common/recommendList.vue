@@ -1,7 +1,7 @@
 <template>
     <div id="hot_list">
         <ul class="hot_ul">
-            <router-link tag="li" v-for="(item,index) in data" :to="'detail/' + item.sound.id" :key="index" class="hot_li">
+            <router-link v-for="(item, index) in data" :to="`/detail/${item.sound.id}`" :key="index" class="hot_li">
                 <section class="pic_wrap">
                     <img :src="item.sound.pic_500" :alt="item.sound.name">
                     <span class="fire" v-if="item.sound.is_hot" :class="hotClass(item.sound.is_hot)"></span>

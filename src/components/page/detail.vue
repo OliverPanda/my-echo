@@ -2,47 +2,48 @@
     <div id="detail">
         <section class="sound_user">
             <span class="user_img">
-                <img :src="userInfo.avatar_50" :alt="userInfo.name" class="profile_pic">
-                <img v-if="userInfo.is_real_famous" :src="userInfo.famous_icon" class="vip_icon">
+                <img :src="audio.data.sound.user.avatar_50" class="profile_pic">
+                <img v-if="audio.data.sound.user.is_real_famous" :src="audio.data.sound.user.famous_icon" class="vip_icon">
             </span>
-            <span class="username">{{userInfo.name}}</span>
+            <span class="username">{{audio.data.sound.user.name}}</span>
             <div class="user_fans right">粉丝:
-                <em>{{userInfo.followed_count}}</em>
+                <em>{{audio.data.sound.user.followed_count}}</em>
             </div>
         </section>
 
         <section class="sound_cover">
-            <img :src="soundInfo.pic_500" :alt="soundInfo.name">
-            <div class="progress">
+            <img :src="audio.data.sound.pic_500" :alt="audio.data.sound.name">
+            <!-- 进度条 -->
+            <div class="progress" @click.stop='jump'>
                 <span style="width: 5%"></span>
-                <em>{{audio.currentTime | timeFormat}} / {{soundInfo.length | timeFormat}}</em>
+                <em>{{audio.currentTime | timeFormat}} / {{audio.duration | timeFormat}}</em>
             </div>
             <div class="control">
                 <div class="play_btn"></div>
                 <div class="control">
-                    <p class="control_name">{{soundInfo.name}}</p>
+                    <p class="control_name">{{audio.data.sound.name}}</p>
                     <p class="control_info">
-                        <span class="author"><em>{{soundInfo.user.name}}</em></span>
-                        <span class="channel"><em>{{soundInfo.channel.name}}</em></span>
+                        <span class="author"><em>{{audio.data.sound.user.name}}</em></span>
+                        <span class="channel"><em>{{audio.data.sound.channel.name}}</em></span>
                     </p>
                 </div>
             </div>
         </section>
         <section class="sound_info">
             <div class="info_header">
-                <div class="play_num">{{soundInfo.view_count}}</div>
-                <div class="like">{{soundInfo.like_count}} 喜欢</div>
+                <div class="play_num">{{audio.data.sound.view_count}} 播放</div>
+                <div class="like">{{audio.data.sound.like_count}} 喜欢</div>
                 <div class="setRing">设为手机铃声</div>
             </div>
             <div class="info_lyr">
-                <div class="lyr_header" v-if="soundInfo.song_info">
-                    <p v-if='soundInfo.song_info.album_name'>{{soundInfo.song_info.album_name.type}} : {{soundInfo.song_info.album_name.name}}</p>
-                    <p v-if='soundInfo.song_info.author'>{{soundInfo.song_info.author.type}} : {{soundInfo.song_info.author.name}}</p>
-                    <p v-if='soundInfo.song_info.name'>{{soundInfo.song_info.name.type}} : {{soundInfo.song_info.name.name}}</p>
+                <div class="lyr_header" v-if="audio.data.sound.song_info">
+                    <p v-if='audio.data.sound.song_info.album_name'>{{audio.data.sound.song_info.album_name.type}} : {{audio.data.sound.song_info.album_name.name}}</p>
+                    <p v-if='audio.data.sound.song_info.author'>{{audio.data.sound.song_info.author.type}} : {{audio.data.sound.song_info.author.name}}</p>
+                    <p v-if='audio.data.sound.song_info.name'>{{audio.data.sound.song_info.name.type}} : {{audio.data.sound.song_info.name.name}}</p>
                 </div>
-                <div class="lyr" v-if="soundInfo.lyrics" v-html="soundInfo.lyrics">
+                <div class="lyr" v-if="audio.data.sound.lyrics" v-html="audio.data.sound.lyrics">
                 </div>
-                <div class="noLyr" v-if="soundInfo.song_info && soundInfo.lyrics ">找不到歌词...</div>
+                <div class="noLyr" v-if="!audio.data.sound.song_info && !audio.data.sound.lyric">找不到歌词...</div>
             </div>
         </section>
         <myList :data="detailRecommend"></myList>
@@ -50,14 +51,13 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapState, mapMutations } from "vuex";
 import Util from "src/config/util";
 import myList from "src/components/common/recommendList";
+import musicBar from 'src/components/common/musicBar'
 export default {
     data() {
         return {
-            userInfo: "",
-            soundInfo: "",
             detailRecommend: []
         };
     },
@@ -71,15 +71,26 @@ export default {
         timeFormat: Util.timeFormat
     },
     methods: {
-        ...mapActions(["get_music_data", "getHot"]),
+        ...mapActions([
+            "get_music_data",
+            "getHot"
+        ]),
+        ...mapMutations([
+            "SET_AUDIO_DATA",
+            "SET_AUDIO_PLAY",
+            "SET_AUDIO_ELE"
+        ]),
         getDetailInfo() {
             this.get_music_data(this.$route.params.id).then(res => {
-                this.soundInfo = res.sound;
-                this.userInfo = res.sound.user;
+                if (res) {
+                    // 设置AUDIO
+                    this.SET_AUDIO_DATA(res)
+                }
             });
         },
         getRecommend() {
             this.getHot().then(res => {
+                // getArrayy 获取数组中任意不重复的8项
                 this.detailRecommend = Util.getArrayItems(res.data,8)
             });
         },
@@ -87,7 +98,7 @@ export default {
             // 只适合width = 100%时候,只适合进度条宽度 = window宽度
             e = e || window.event;
             var percent = (e.pageX / window.innerWidth).toFixed(2);
-            this.audio.currentTime = this.soundInfo.length * percent;
+            this.audio.currentTime = this.audio.ele.duration * percent
         },
         init() {
             this.getDetailInfo();
@@ -95,7 +106,7 @@ export default {
         }
     },
     mounted() {
-        this.init();
+        this.init()
     }
 };
 </script>
@@ -201,8 +212,7 @@ export default {
                     font-size: 0.51rem;
                 }
             }       
-            .control_name {
-            }
+            
         }
 
 

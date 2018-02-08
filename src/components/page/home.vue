@@ -12,39 +12,46 @@
 </template>
 
 <script type="script/ecmascript-6">
-	import carousel from 'src/components/common/carousel'
-	import myList from 'src/components/common/recommendList'
-	import { mapActions } from 'vuex'
-	export default {
-		components: {
-			carousel,
-			myList
-		},
-		data() {
-			return {
-				recommendList: []
-			}
-		},
-		methods: {
-			...mapActions([
-				'getHot'
-			]),
-			get_recommend () {
-				this.getHot().then(res => {
-					this.recommendList = res.data
-					// console.log(res.data)
-				}, err => {
-					console.log('get_recommend',err)
-				})
-			},
-			init () {
-				this.get_recommend()
-			}
-		},
-		mounted () {
-			this.init()
+import carousel from 'src/components/common/carousel'
+import myList from 'src/components/common/recommendList'
+import { mapActions, mapMutations, mapState } from 'vuex'
+export default {
+	components: {
+		carousel,
+		myList
+	},
+	data() {
+		return {
+			recommendList: [],
+			page: 1,
+			lock: false,
+			loading: 'loading'
 		}
+	},
+	// computed: {
+	// 	...mapState([
+	// 		'audio'
+	// 	])
+	// },
+	methods: {
+		...mapActions([
+			'getHot'
+		]),
+		get_recommend () {
+			this.getHot().then(res => {
+				this.recommendList = res.data
+			}, err => {
+				console.log('get_recommend',err)
+			})
+		},
+		init () {
+			this.get_recommend()
+		}
+	},
+	mounted () {
+		this.init()
 	}
+}
 </script>
 
 <style lang="scss">

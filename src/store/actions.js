@@ -42,16 +42,13 @@ export default {
             ishash = true
         }
         if(!ishash) {
-            state.playList.unshift(res)
+            // unshift在IE中无法正确的工作
+            // state.playList.unshift(res)    
+            state.playList.push(res)
             commit(SET_PLAYLIST,state.playList)
         }
         return res
-        try {
-            console.log(state.playList)
-        }
-        catch(e){
-            throw new Error()
-        }
-    }
+    },
+    
     
 }

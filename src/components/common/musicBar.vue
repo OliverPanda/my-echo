@@ -1,25 +1,37 @@
 <template>
     <div id="musicBar">
-        <div class="sound">
-            <audio id="audio" autoplay="autoplay" :src="audio_data.sound.source"></audio>
+        <div class='sound'>
+            <!-- audio -->
+            <audio id='audio' autoplay="autoplay" src=""></audio>
+
+            <!-- 封面 -->
+            <router-link class="cover" tag='a' :to="`/detail/`">
+                <img src="">
+            </router-link>
+
+            <!-- 信息 -->
+            <div class="info">
+                <p class="name">歌名----{{audio_data}}</p>
+                <p class="author">作者名</p>
+            </div>
+            <!-- 控制 -->
+            <div class="control">
+               控制条
+            </div>
         </div>
-        <router-link :to="`/detail/${audio_data.sound.id}`" class="cover">
-            <img :src="audio_data.sound.pic_500">
-        </router-link>
-        <div class="info">
-            <p class="name">{{audio_data.sound.name}}</p>
-            <p class="author">{{audio_data.sound.user.name}}</p>
+
+        <!-- 进度条 -->
+        <div class="progress_bar">
+            <div class="progress_bar_inner" style=""></div>
         </div>
-        <div class="controls">
-            <button class="paly_list"></button>
-            <button class="play_btn"></button>
-            <button class="next_btn"></button>
-        </div>
+        
+        <!-- 播放列表/播放模式 -->
+        <!-- <my-sheet ref="sheet"></my-sheet> -->
     </div>
 </template>
 
 <script>
-import { mapActions, mapState, mapMutations } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
     computed: {
         ...mapState({
@@ -29,12 +41,13 @@ export default {
             playList: "playList",
             audio_data: "audio.data",
             audio_play: "audio.play"
-        })
+        }),
     },
     watch: {
         audio_data(val) {
             // 当前audio数据改变了，等dom更新完，初始化audio
             if (val) {
+                console.log('有audio.data')
                 this.$nextTick(() => {
                     this.audio_init()
                 })
@@ -55,19 +68,20 @@ export default {
             "SET_AUDIO_PLAYMODE",
             "SET_PLAYLIST"
         ]),
-        audio_init() {
-            let audio_ele = this.$el.querySelector("#audio");
-            this.SET_AUDIO_ELE(AUDIO);
-            audio_ele.canPlay = () => {
+        audio_init () {
+            let audio_ele = this.$el.querySelector("#audio")
+            this.SET_AUDIO_ELE(audio_ele)
+            console.log(audio_ele)
+            audio_ele.oncanPlay = () => {
                 audio_ele.play();
                 this.SET_AUDIO_DURATION(audio_ele.duration);
             };
             audio_ele.onTimeUpdate = () => {
                 // currentTime本来就是以秒来计的，所以可以不用~~取整
-                audio_ele.SET_AUDIO.CURRENTTIME(audio_ele.currentTime);
+                this.SET_AUDIO_CURRENTTIME(audio_ele.currentTime);
             };
             audio_ele.onplay = () => {
-                this.SETXS_AUDIO_PLAY(true);
+                this.SET_AUDIO_PLAY(true);
             };
             audio_ele.onpause = () => {
                 this.SET_AUDIO_PLAY(false);
@@ -98,7 +112,7 @@ export default {
             if (this.playList[index].sound.id === this.audio.data.sound.id) {
                 this.listRepeat();
             } else {
-                this.set_audio_data(this.playList[index]);
+                this.SET_AUDIO_DATA(this.playList[index]);
             }
         },
         // 单曲循环
@@ -126,7 +140,7 @@ export default {
                     this.audio.ele.load();
                     this.audio.ele.play();
                 } else {
-                    this.set_audio_data(this.playList[nextIndex]);
+                    this.SET_AUDIO_DATA(this.playList[nextIndex]);
                 }
             } else {
                 console.warn("正常逻辑不会到这里啊");
