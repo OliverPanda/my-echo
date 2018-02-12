@@ -1,5 +1,5 @@
 <template>
-    <div id="musicBar">
+    <div id="musicBar" v-if='audio_data'>
         <div class='sound'>
             <audio id='audio' autoplay="autoplay" :src="audio_data.sound.source"></audio>
             <router-link class="cover" tag='a' :to="`/detail/${audio_data.sound.id}`">
@@ -55,7 +55,8 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters } from "vuex";
+import { mapState, mapMutations, mapGetters } from "vuex"
+import mySheet from 'src/components/common/sheet'
 export default {
     computed: {
         ...mapState({
@@ -66,6 +67,9 @@ export default {
             audio_data: state => state.audio.data,
             audio_play: state => state.audio.play
         })
+    },
+    components: {
+        mySheet
     },
     watch: {
         audio_data(val) {

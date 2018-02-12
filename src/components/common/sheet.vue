@@ -93,19 +93,19 @@ export default {
     }
 }
 </script>
-<style lang='stylus'>
+<style lang='scss'>
+@import "src/style/mixin.scss";
 .playListSheet{
-    max-height: toRem(188);
-    bottom: toRem(48);
+    max-height: 8.03rem;
+    bottom: 2.05rem;
     border-top: 1px solid #eee;
     .playList-header{
         position: relative;
-        height: toRem(37.5);
-        line-height: toRem(37.5);
+        @include lh(1.6rem);
         font-size: 14px;
         color: #6ed56c;
         text-align: center;
-        margin-top: toRem(7.5);
+        margin-top: 0.32rem;
         span{
             font-size: 12px;
         }
@@ -113,8 +113,7 @@ export default {
             position: absolute;
             right: 5px;
             top: 0;
-            width: toRem(37.5);
-            height: toRem(37.5);
+            @include wh(1.6rem, 1.6rem);
             padding: 0;
             .mu-icon{
                 font-size: 20px;
@@ -123,7 +122,7 @@ export default {
     }
     .list{
         position: relative;
-        max-height: 4rem;
+        max-height: 6.41rem;
         overflow-x: hidden;
         .list-item{
             position: relative;
@@ -132,7 +131,7 @@ export default {
                 position: absolute;
                 width: 5px;
                 height: 5px;
-                left: toRem(18);
+                left: 0.77rem;
                 top: 20px;
                 border-radius: 50%;
                 background-color: #e8e8e8;
@@ -146,16 +145,14 @@ export default {
             .mu-item{
                 font-size: 14px;
                 color: #999;
-                padding: toRem(12) toRem(45) toRem(12) toRem(37.5);
+                padding: 0.51rem 1.92rem 0.51rem 1.6rem;
                 border-bottom: 1px solid #f4f4f4;
                 min-height: 0;
                 .mu-item-content{
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                    white-space: nowrap;
+                    @include ellipsis;
                 }
                 .mu-item-left{
-                    left: toRem(18);
+                    left: 0.77rem;
                     margin-left: -5px;
                 }
                 .mu-item-right{
@@ -185,7 +182,7 @@ export default {
     }
 }
 .playModeSheet{
-    z-index: 20170822 !important;
+    z-index: -1 !important;
     .list{
         .list-item{
             .mu-item-title{

@@ -15,16 +15,16 @@
             <img :src="audio.data.sound.pic_500" :alt="audio.data.sound.name">
             <!-- 进度条 -->
             <div class="progress" @click.stop='jump'>
-                <span style="width: 5%"></span>
-                <em>{{audio.currentTime | timeFormat}} AAA / {{audio.duration | timeFormat}} BBB</em>
+                <span :style="`width:${$store.getters.audio_progress}`"></span>
+                <em>{{audio.currentTime | timeFormat}}/ {{audio.duration | timeFormat}}</em>
             </div>
             <div class="control">
-                <div class="play_btn"></div>
+                <div class="play_btn" :class="audio.play?'pause':'play'" @click.stop="set_audio_play(!audio.play)"></div>
                 <div class="control">
                     <p class="control_name">{{audio.data.sound.name}}</p>
                     <p class="control_info">
-                        <span class="author"><em>{{audio.data.sound.user.name}}</em></span>
-                        <span class="channel"><em>{{audio.data.sound.channel.name}}</em></span>
+                        <span class="author"><em>{{audio.data.sound.user.name}}</em></span>发布在
+                        <span class="channel"><em>{{audio.data.sound.channel.name}}</em></span>频道
                     </p>
                 </div>
             </div>
@@ -285,6 +285,15 @@ export default {
         padding: 0.61rem 0.64rem 1.28rem;
         text-align: left;
     }
+}
+</style>
+<style lang="scss" scoped>
+.play_btn.pause {
+    background: url(~src/img/play.png) no-repeat;
+}
+
+.play_btn.play {
+    background: url(~src/img/pause.png) no-repeat;
 }
 </style>
 

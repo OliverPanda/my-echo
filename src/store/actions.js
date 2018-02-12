@@ -5,7 +5,7 @@ export default {
     async getBanner({commit,state}) {
         let res = await fetch('GET','banner')
         // 合并banner recommend里的数据并按ID排列,详情页的时候用
-        if (res.data) {
+        if (res.code === 0) {
             let list = {}
             for (var i = 0; i < res.data.length; i++) {
                 // 根据sound.id排列
@@ -18,7 +18,7 @@ export default {
     },
     async getHot({commit,state}) {
         let res = await fetch('GET','recommend')
-        if (res.data) {
+        if (res.code === 0) {
             let list = {}
             for (var i = 0; i < res.data.length; i++) {
                 list[res.data[i].sound.id] = res.data[i]

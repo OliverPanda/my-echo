@@ -3,7 +3,7 @@ import * as cache from 'src/config/cookies'
 export default {
     [types.GET_ALL] (state, val) {
         state.getAll = val
-        cache.setCookie('getAll')        
+        cache.setCookie('getAll',val)        
     },
     [types.SET_PLAYLIST] (state, val) {
         // 不直接等于是解决数组赋值引用的问题
@@ -21,18 +21,16 @@ export default {
     },
     [types.SET_AUDIO_PLAY] (state, val) {
         state.audio.play = val
-        console.log("state.audio.play为：" + state.audio.play)
-        
+        // console.log("state.audio.play为：" + state.audio.play)
     },
     [types.SET_AUDIO_DURATION] (state, val) {
         state.audio.duration = val
-        console.log("state.audio.duration为：" + state.audio.duration)
+        // console.log("state.audio.duration为：" + state.audio.duration)
         
     },
     [types.SET_AUDIO_CURRENTTIME] (state, val) {
         state.audio.currentTime = val
-        console.log("state.audio.currentTime为：" + state.audio.currentTime)
-        
+        // console.log("state.audio.currentTime为：" + state.audio.currentTime)
     },
     [types.SET_AUDIO_PLAYMODE] (state, val) {
         state.playMode = val

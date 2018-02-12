@@ -28,11 +28,6 @@ export default {
 			loading: 'loading'
 		}
 	},
-	// computed: {
-	// 	...mapState([
-	// 		'audio'
-	// 	])
-	// },
 	methods: {
 		...mapActions([
 			'getHot'

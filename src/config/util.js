@@ -1,3 +1,6 @@
+/**
+ * 全局函数
+ */
 export default {
   timeFormat: s => {
     // ~~t  两次位运算，去小数
