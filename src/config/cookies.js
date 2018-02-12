@@ -10,19 +10,19 @@ export const setCookie = (name,val) => {
     if (typeof val !=='string') {
         val = JSON.stringify(val)
     }
-    window.localStorage.setItem(name,val)
+    window.sessionStorage.setItem(name,val)
 }
 
 export const getCookie = name => {
     if (!name) {
         return
     }
-    return window.localStorage.getItem(name)
+    return window.sessionStorage.getItem(name)
 }
 
 export const deleteCookie = name => {
     if (!name) {
         return
     }
-    window.localStorage.removeItem(name)
+    window.sessionStorage.removeItem(name)
 }

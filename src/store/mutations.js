@@ -1,5 +1,5 @@
 import * as types from './mutations-type'
-import * as cache from 'src/config/setCookie'
+import * as cache from 'src/config/cookies'
 export default {
     [types.GET_ALL] (state, val) {
         state.getAll = val
@@ -13,13 +13,11 @@ export default {
     },
     [types.SET_AUDIO_DATA] (state, val) {
         state.audio.data = val
-        console.log("state.audio.data为：")
-        console.dir(state.audio.data)
+        // console.log("state.audio.data为：")
+        // console.dir(state.audio.data)
     },
     [types.SET_AUDIO_ELE] (state, val) {
         state.audio.ele = val
-        console.log("state.audio.ele为：" + state.audio.ele)
-        
     },
     [types.SET_AUDIO_PLAY] (state, val) {
         state.audio.play = val
@@ -46,7 +44,7 @@ export default {
         let getAll = JSON.parse(cache.getCookie('getAll'))
         let playList = JSON.parse(cache.getCookie('playList'))
         let playMode = cache.getCookie('playMode')
-        if( getAll ) {
+        if(getAll) {
             state.getAll = getAll
         }
         if (playList) {

@@ -9,7 +9,7 @@
             </div>
             <!-- 列表 -->
             <mu-list class='list'>
-                <mu-list-item class="list-item" v-for="(item, index) in playList" :key="index" :class="{'playing': audio.data.sound.id === item.sound.id}" @click.stop="set_audio_data(item)">
+                <mu-list-item class="list-item" v-for="(item, index) in playList" :key="index" :class="{'playing': audio.data.sound.id === item.sound.id}" @click.stop="SET_AUDIO_DATA(item)">
                     <!-- 播放小图标 -->
                     <mu-icon class="playing_icon" slot="left" v-show="audio.data.sound.id === item.sound.id"  value="play_circle_filled" /> {{item.sound.name}}
                     <!-- 删除列表按钮 -->
@@ -71,9 +71,9 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'set_audio_data',
-            'set_playMode',
-            'set_playList'
+            'SET_AUDIO_DATA',
+            'SET_AUDIO_PLAYMODE',
+            'SET_AUDIO_PLAYLIST'
         ]),
         // 切换显示
         toggleVisible() {
@@ -81,14 +81,14 @@ export default {
         },
         // 播放模式change
         playModeChange(val) {
-            this.set_playMode(val)
+            this.SET_AUDIO_PLAYMODE(val)
             this.playMode_visible = false
         },
         // 删除选项
         deleteItem(item) {
             let index = this.playList.findIndex(n => n.sound.id === item.sound.id)
             this.playList.splice(index, 1)
-            this.set_playList(this.playList)
+            this.SET_AUDIO_PLAYLIST(this.playList)
         }
     }
 }

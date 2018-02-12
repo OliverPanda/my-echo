@@ -16,7 +16,7 @@
             <!-- 进度条 -->
             <div class="progress" @click.stop='jump'>
                 <span style="width: 5%"></span>
-                <em>{{audio.currentTime | timeFormat}} / {{audio.duration | timeFormat}}</em>
+                <em>{{audio.currentTime | timeFormat}} AAA / {{audio.duration | timeFormat}} BBB</em>
             </div>
             <div class="control">
                 <div class="play_btn"></div>
@@ -83,7 +83,7 @@ export default {
         getDetailInfo() {
             this.get_music_data(this.$route.params.id).then(res => {
                 if (res) {
-                    // 设置AUDIO
+                    // 设置AUDIO数据
                     this.SET_AUDIO_DATA(res)
                 }
             });
@@ -107,6 +107,16 @@ export default {
     },
     mounted() {
         this.init()
+        // console.log('playList')
+        // console.dir(this.$store.state.playList)
+    },
+    // 监听路由变化，重新渲染，不然的话在详情里点了推荐下的图片，只会有路由变化不会重新渲染
+    watch: {
+        $route (to, from) {
+            if (this.$route.path.includes('detail')) {
+                this.init()
+            }
+        }
     }
 };
 </script>
