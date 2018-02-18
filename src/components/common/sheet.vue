@@ -182,7 +182,7 @@ export default {
     }
 }
 .playModeSheet{
-    z-index: -1 !important;
+    z-index: 999;
     .list{
         .list-item{
             .mu-item-title{

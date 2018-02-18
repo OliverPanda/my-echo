@@ -185,7 +185,7 @@ export default {
     position: fixed;
     left: 0;
     bottom: 0;
-    z-index: 999999;
+    z-index: 99999999;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.9);
     border-top: 1px solid #e8e8e8;

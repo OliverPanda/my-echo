@@ -17,14 +17,19 @@
             <div class="progress" @click.stop='jump'>
                 <span :style="`width:${$store.getters.audio_progress}`"></span>
                 <em>{{audio.currentTime | timeFormat}}/ {{audio.duration | timeFormat}}</em>
+                
             </div>
             <div class="control">
                 <div class="play_btn" :class="audio.play?'pause':'play'" @click.stop="set_audio_play(!audio.play)"></div>
                 <div class="control_info">
                     <p class="control_soundName">{{audio.data.sound.name}}</p>
                     <p>
-                        <span class="author"><em>{{audio.data.sound.user.name}}</em></span>发布在
-                        <span class="channel"><em>{{audio.data.sound.channel.name}}</em></span>频道
+                        <span class="author">
+                            <em>{{audio.data.sound.user.name}}</em>
+                        </span>  发布在  
+                        <span class="channel">
+                            <em>{{audio.data.sound.channel.name}}</em>
+                        </span>  频道  
                     </p>
                 </div>
             </div>
@@ -54,87 +59,83 @@
 import { mapActions, mapGetters, mapState, mapMutations } from "vuex";
 import Util from "src/config/util";
 import myList from "src/components/common/recommendList";
-import musicBar from 'src/components/common/musicBar'
+import musicBar from "src/components/common/musicBar";
 export default {
-    data() {
-        return {
-            detailRecommend: []
-        };
-    },
-    components: {
-        myList
-    },
-    computed: {
-        ...mapState(["audio"])
-    },
-    filters: {
-        timeFormat: Util.timeFormat
-    },
-    methods: {
-        ...mapActions([
-            "get_music_data",
-            "getHot"
-        ]),
-        ...mapMutations([
-            "SET_AUDIO_DATA",
-            "SET_AUDIO_PLAY",
-            "SET_AUDIO_ELE"
-        ]),
-        getDetailInfo() {
-            this.get_music_data(this.$route.params.id).then(res => {
-                if (res) {
-                    // 设置AUDIO数据
-                    this.SET_AUDIO_DATA(res)
-                }
-            });
-        },
-        getRecommend() {
-            this.getHot().then(res => {
-                // getArrayy 获取数组中任意不重复的8项
-                this.detailRecommend = Util.getArrayItems(res.data,8)
-            });
-        },
-        jump(e) {
-            // 只适合width = 100%时候,只适合进度条宽度 = window宽度
-            e = e || window.event;
-            var percent = (e.pageX / window.innerWidth).toFixed(2);
-            this.audio.currentTime = this.audio.ele.duration * percent
-        },
-        init() {
-            this.getDetailInfo();
-            this.getRecommend();
+  data() {
+    return {
+      detailRecommend: []
+    };
+  },
+  components: {
+    myList
+  },
+  computed: {
+    ...mapState(["audio"])
+  },
+  filters: {
+    timeFormat: Util.timeFormat
+  },
+  methods: {
+    ...mapActions(["get_music_data", "getHot"]),
+    ...mapMutations(["SET_AUDIO_DATA", "SET_AUDIO_PLAY", "SET_AUDIO_ELE"]),
+    getDetailInfo() {
+      this.get_music_data(this.$route.params.id).then(res => {
+        if (res) {
+          // 设置AUDIO数据
+          this.SET_AUDIO_DATA(res);
         }
+      });
     },
-    mounted() {
-        this.init()
-        // console.log('playList')
-        // console.dir(this.$store.state.playList)
+    getRecommend() {
+      this.getHot().then(res => {
+        // getArrayy 获取数组中任意不重复的8项
+        this.detailRecommend = Util.getArrayItems(res.data, 8);
+      });
     },
-    // 监听路由变化，重新渲染，不然的话在详情里点了推荐下的图片，只会有路由变化不会重新渲染
-    watch: {
-        $route (to, from) {
-            if (this.$route.path.includes('detail')) {
-                this.init()
-            }
-        }
+    jump(e) {
+      // 只适合width = 100%时候,只适合进度条宽度 = window宽度
+      e = e || window.event;
+      var percent = (e.pageX / window.innerWidth).toFixed(2);
+      this.audio.currentTime = this.audio.ele.duration * percent;
+    },
+    init() {
+      this.getDetailInfo();
+      this.getRecommend();
     }
+  },
+  mounted() {
+    this.init();
+    // console.log('playList')
+    // console.dir(this.$store.state.playList)
+  },
+  // 监听路由变化，重新渲染，不然的话在详情里点了推荐下的图片，只会有路由变化不会重新渲染
+  watch: {
+    $route(to, from) {
+      if (this.$route.path.includes("detail")) {
+        this.init();
+      }
+    }
+  }
 };
 </script>
 
 <style lang="scss">
 @import "src/style/mixin.scss";
-
-.sound_user {
+#detail {
     position: relative;
-    @include lh(2.24rem);
-    background-color: #fbfbfb;
-    padding: 0 0.42rem;
-    span {
+    -webkit-overflow-scrolling: touch;
+    z-index: 0;
+    .sound_user {
+        position: relative;
+        @include lh(2.24rem);
+        background-color: #fbfbfb;
+        padding: 0 0.42rem;
+        span {
         display: inline-block;
         vertical-align: middle;
         line-height: 2.24rem;
-    }
-    .user_img {
+        }
+        .user_img {
         @include wh(1.44rem,1.44rem);
         position: relative;
         margin: 0.4rem 0;
@@ -149,170 +150,163 @@ export default {
             bottom: 0;
             right: 0;
         }
-    }
-    .username {
+        }
+        .username {
         font-size: 0.6rem;
         @include ellipsis;
-    }
-    .user_fans {
+        }
+        .user_fans {
         font-size: 0.51rem;
         em {
             color: #00ae05;
         }
-    }
-}
+        }
+  }
 
-.sound_cover {
+  .sound_cover {
     @include wh(100%, 16rem);
     position: relative;
     img {
-        @include wh(100%, 16rem);
-        object-fit: cover;
+      @include wh(100%, 16rem);
+      object-fit: cover;
     }
     .progress {
-        @include wh(100%, 0.64rem);
-        @include font(0.51rem, 0.64rem);
-        position: absolute;
-        bottom: 2.4rem;
-        background-color: rgba(0, 0, 0, 0.2);
+      @include wh(100%, 0.64rem);
+      @include font(0.51rem, 0.64rem);
+      position: absolute;
+      bottom: 2.4rem;
+      background-color: rgba(0, 0, 0, 0.2);
+      color: #fff;
+      span {
+        background-color: rgba(110, 213, 108, 0.6);
+        @include leftTop;
+        height: 100%;
+      }
+      em {
+        z-index: 1;
+        padding-left: 0.43rem;
+      }
+      .play_btn {
+        @include wh(1.6rem, 1.6rem);
+        margin: 0.43rem;
+        background-size: cover !important;
+      }
+      .control_info {
+        flex: 1;
         color: #fff;
-        span {
-            background-color: rgba(110, 213, 108, 0.6);
-            @include leftTop;
-            height: 100%;
+        height: 1.6rem;
+        vertical-align: top;
+        overflow: hidden;
+        p {
+          line-height: 2.3;
+          @include ellipsis;
+          font-size: 0.48rem;
         }
-        em {
-            z-index: 1;
-            padding-left: 0.43rem;
+        .control_soundName {
+          font-size: 0.6rem;
         }
-        .play_btn {
-            @include wh(1.6rem, 1.6rem);
-            margin: 0.43rem;
-            background-size: cover!important;
-        }
-        .control_info {
-            flex: 1;
-            color: #fff;
-            height: 1.6rem;
-            vertical-align: top;
-            overflow: hidden;
-            p {
-                line-height: 2.3;
-                @include ellipsis;
-                font-size: 0.48rem;
-            }
-            .control_soundName {
-                font-size: 0.6rem;
-            }
-        }
+      }
     }
     .control {
-        @include lh(2.4rem);
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        -webkit-box-align: center;
-        align-items: center;
-        .play_btn {
-            @include wh(1.6rem,1.6rem);
-            margin: 0.43rem;
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
-            background-size: cover;
-            &.play {
-                background: url(~src/img/play.png);
-            }
-            &.pause {
-                background: url(~src/img/pause.png)
-            }
+      @include lh(2.4rem);
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      .play_btn {
+        @include wh(1.6rem,1.6rem);
+        margin: 0.43rem;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        &.play {
+          background: url(~src/img/play.png);
+          background-size: cover;
         }
-        .control_info {
-            flex: 1;
-            color: #fff;
-            height: 1.6rem;
-            vertical-align: top;
-            overflow: hidden;     
-            p {
-                width: 100%;
-                height: 1.432;
-                @include ellipsis;
-                font-size: 0.48rem;
-                span>em {
-                    color: #6ed56c;
-                    font-size: 0.51rem;
-                }
-            }       
-            
+        &.pause {
+          background: url(~src/img/pause.png);
+          background-size: cover;
+          
         }
+      }
+      .control_info {
+        flex: 1;
+        color: #fff;
+        height: 1.6rem;
+        vertical-align: top;
+        overflow: hidden;
+        p {
+          width: 100%;
+          line-height: 1.432;
+          @include ellipsis;
+          font-size: 0.48rem;
+          color: #fff;
+          span > em {
+            color: #6ed56c;
+            font-size: 0.51rem;
+          }
+        }
+      }
     }
-}
-.sound_info .info_header .play_num:before,
-.sound_info .info_header .link:before,
-.sound_info .info_header .setRing:before {
+  }
+  .sound_info .info_header .play_num:before,
+  .sound_info .info_header .like:before,
+  .sound_info .info_header .setRing:before {
     content: "";
     display: inline-block;
     margin-right: 0.26rem;
     background-size: cover !important;
-}
-.sound_info {
+  }
+  .sound_info {
     width: 100%;
     background-color: #fff;
     bottom: 0.43rem;
     .info_header {
-        @include wh(100%, 2.36rem);
-        border-bottom: 1px solid #e8e8e8;
-        // font-size: 0;
-        padding: 0 0.69rem;
-        .play_num {
-            display: inline-block;
-            @include lh(2.35rem);
-            font-size: 0.51rem;
-            color: #a9a9a9;
-            margin-right: 0.86rem;
-            &:before {
-                @include wh(0.35rem, 0.38rem);
-                background: url(~src/img/play_num.png) no-repeat;
-            }
+      @include wh(100%, 2.36rem);
+      border-bottom: 1px solid #e8e8e8;
+      // font-size: 0;
+      padding: 0 0.69rem;
+      .play_num {
+        display: inline-block;
+        @include lh(2.35rem);
+        font-size: 0.51rem;
+        color: #a9a9a9;
+        margin-right: 0.86rem;
+        &:before {
+          @include wh(0.35rem, 0.38rem);
+          background: url(~src/img/play_num.png) no-repeat;
         }
-        .like {
-            display: inline-block;
-            @include lh(2.35rem);
-            font-size: 0.51rem;
-            color: #a9a9a9;
-            margin-right: 0.86rem;
-            &:before {
-                @include wh(0.43rem,0.38rem);
-                background: url(~src/img/like_num.png) no-repeat;
-            }
+      }
+      .like {
+        display: inline-block;
+        @include lh(2.35rem);
+        font-size: 0.51rem;
+        color: #a9a9a9;
+        margin-right: 0.86rem;
+        &:before {
+          @include wh(0.43rem,0.38rem);
+          background: url(~src/img/like_num.png) no-repeat;
         }
-        .setRing {
-            float: right;
-            @include lh(2.35rem);
-            font-size: 0.56rem;
-            color: #6ed56c;
-            &:before {
-                @include wh(0.86rem,0.86rem);
-                background: url(~src/img/bell.png) no-repeat;
-            }
+      }
+      .setRing {
+        float: right;
+        @include lh(2.35rem);
+        font-size: 0.56rem;
+        color: #6ed56c;
+        &:before {
+          @include wh(0.86rem,0.86rem);
+          background: url(~src/img/bell.png) no-repeat;
         }
+      }
     }
     .info_lyr {
-        white-space: pre-line;
-        line-height: 1.5em;
-        font-size: 0.6rem;
-        padding: 0.61rem 0.64rem 1.28rem;
-        text-align: left;
+      white-space: pre-line;
+      line-height: 1.5em;
+      font-size: 0.6rem;
+      padding: 0.61rem 0.64rem 1.28rem;
+      text-align: left;
     }
+  }
 }
 </style>
-<style lang="scss" scoped>
-.play_btn.pause {
-    background: url(~src/img/play.png) no-repeat;
-}
-
-.play_btn.play {
-    background: url(~src/img/pause.png) no-repeat;
-}
-</style>
-

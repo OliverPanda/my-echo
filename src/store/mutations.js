@@ -13,24 +13,19 @@ export default {
     },
     [types.SET_AUDIO_DATA] (state, val) {
         state.audio.data = val
-        // console.log("state.audio.data为：")
-        // console.dir(state.audio.data)
     },
     [types.SET_AUDIO_ELE] (state, val) {
         state.audio.ele = val
     },
     [types.SET_AUDIO_PLAY] (state, val) {
         state.audio.play = val
-        // console.log("state.audio.play为：" + state.audio.play)
     },
     [types.SET_AUDIO_DURATION] (state, val) {
         state.audio.duration = val
-        // console.log("state.audio.duration为：" + state.audio.duration)
         
     },
     [types.SET_AUDIO_CURRENTTIME] (state, val) {
         state.audio.currentTime = val
-        // console.log("state.audio.currentTime为：" + state.audio.currentTime)
     },
     [types.SET_AUDIO_PLAYMODE] (state, val) {
         state.playMode = val
