@@ -20,7 +20,7 @@
                 </button>
                 <button class="play_control borderSetting">
                     <!-- 如果audio_play === true 显示play按钮，否则显示pause按钮 -->
-                    <div class="control_wrapper" v-if="audio_play" @click.stop="SET_AUDIO_PLAY(!audio_play)">
+                    <div class="control_wrapper" v-if="!audio_play" @click.stop="SET_AUDIO_PLAY(!audio_play)">
                         <svg t="1518337992385" class="icon_play" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1073" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24">
                             <path d="M844.704269 475.730473L222.284513 116.380385a43.342807 43.342807 0 0 0-65.025048 37.548353v718.692951a43.335582 43.335582 0 0 0 65.025048 37.541128l622.412531-359.342864a43.357257 43.357257 0 0 0 0.007225-75.08948z" fill="#5e5e5e" p-id="1074">
                             </path>
@@ -100,13 +100,14 @@ export default {
         audio_init () {
             let audio_ele = this.$el.querySelector("#audio")
             this.SET_AUDIO_ELE(audio_ele)
-            audio_ele.oncanPlay = () => {
+            // audioElement 加载的时候
+            audio_ele.oncanplay = () => {
                 audio_ele.play();
                 this.SET_AUDIO_DURATION(audio_ele.duration);
             };
-            audio_ele.onTimeUpdate = () => {
-                // currentTime本来就是以秒来计的，所以可以不用~~取整
-                this.SET_AUDIO_CURRENTTIME(audio_ele.currentTime);
+            audio_ele.ontimeupdate = () => {
+                // ~~取整，  不然的话会有好长的小数
+                this.SET_AUDIO_CURRENTTIME(~~audio_ele.currentTime);
             };
             audio_ele.onplay = () => {
                 this.SET_AUDIO_PLAY(true);
@@ -184,7 +185,7 @@ export default {
     position: fixed;
     left: 0;
     bottom: 0;
-    z-index: 999;
+    z-index: 999999;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.9);
     border-top: 1px solid #e8e8e8;

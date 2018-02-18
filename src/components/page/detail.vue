@@ -20,9 +20,9 @@
             </div>
             <div class="control">
                 <div class="play_btn" :class="audio.play?'pause':'play'" @click.stop="set_audio_play(!audio.play)"></div>
-                <div class="control">
-                    <p class="control_name">{{audio.data.sound.name}}</p>
-                    <p class="control_info">
+                <div class="control_info">
+                    <p class="control_soundName">{{audio.data.sound.name}}</p>
+                    <p>
                         <span class="author"><em>{{audio.data.sound.user.name}}</em></span>发布在
                         <span class="channel"><em>{{audio.data.sound.channel.name}}</em></span>频道
                     </p>
@@ -183,6 +183,27 @@ export default {
         }
         em {
             z-index: 1;
+            padding-left: 0.43rem;
+        }
+        .play_btn {
+            @include wh(1.6rem, 1.6rem);
+            margin: 0.43rem;
+            background-size: cover!important;
+        }
+        .control_info {
+            flex: 1;
+            color: #fff;
+            height: 1.6rem;
+            vertical-align: top;
+            overflow: hidden;
+            p {
+                line-height: 2.3;
+                @include ellipsis;
+                font-size: 0.48rem;
+            }
+            .control_soundName {
+                font-size: 0.6rem;
+            }
         }
     }
     .control {
@@ -224,8 +245,6 @@ export default {
             }       
             
         }
-
-
     }
 }
 .sound_info .info_header .play_num:before,
